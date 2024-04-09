@@ -10,7 +10,7 @@ function App() {
             </div>
         </nav>
 
-        <section className="flex w-full container mx-auto">
+        <section className="flex w-full mx-auto relative">
           <Sidebar />
 
         </section>

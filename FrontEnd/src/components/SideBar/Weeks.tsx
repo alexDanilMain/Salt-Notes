@@ -1,21 +1,30 @@
 import Days from "./Days";
 
 type Props = {
-    number : number;
+    number: number;
     name: string;
 }
 
-const days = Array.from({length: 5}, (_, i) => i + 1);
+const days = Array.from({ length: 5 }, (_, i) => i + 1);
 
-function Weeks({number, name}:Props) {
-  return (
-    <details className="mt-2 dropdown"> 
-      <summary className="m-1 btn text-xl"> Week {number} - {name} </summary>
-      <ul className="mt-2 list-disc px-2 pl-6 text-lg menu dropdown-content z-[1] bg-base-100 rounded-box">
-        {days.map((number) => <Days number={number} /> )}
-      </ul>
-    </details>
-  )
+function Weeks({ number, name }: Props) {
+    return (
+        
+            <li>
+                <button type="button" className="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-gray-200" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                    <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Week {number} - {name}</span>
+                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul id="dropdown-example" className="hidden py-2 space-y-2">
+                    {days.map((number) => <Days number={number} />)}
+                </ul>
+            </li>
+  
+    )
 }
+
+
 
 export default Weeks
