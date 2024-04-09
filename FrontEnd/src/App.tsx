@@ -1,3 +1,4 @@
+import Sidebar from "./components/SideBar/Sidebar"
 
 function App() {
 
@@ -9,7 +10,10 @@ function App() {
             </div>
         </nav>
 
+        <section className="flex w-full container mx-auto">
+          <Sidebar />
 
+        </section>
     </>
   )
 }
