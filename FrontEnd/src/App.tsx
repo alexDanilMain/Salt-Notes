@@ -10,9 +10,11 @@ function App() {
             </div>
         </nav>
 
-        <section className="flex w-full mx-auto relative">
+        <section className="flex w-full mx-auto relative flex-col">
           <Sidebar />
-
+          <div className="w-full h-64 bg-black">
+            
+          </div>
         </section>
     </>
   )
