@@ -16,12 +16,12 @@ LINQ (Language Integrated Query) is a powerful feature in C# that allows develop
 LINQ query syntax resembles SQL syntax and consists of three main clauses: \`from\`, \`where\`, and \`select\`.
 `;
 
-function MobNotes() {
+function MobNotes({text}:{text:string}) {
   return (
     <>
       <h2 className="text-3xl py-4 border-b-2 border-black">Your Mob</h2>
 
-        <HtmlNotes name="Kind Coders" text={markdown} />
+        <HtmlNotes name="Kind Coders" text={text} />
     </>
   );
 }
