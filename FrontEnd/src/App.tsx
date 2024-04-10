@@ -1,5 +1,4 @@
 import Sidebar from "./components/SideBar/Sidebar";
-import HtmlNotes from "./components/Notes/HtmlNotes/HtmlNotes";
 import MobNotes from "./components/Notes/HtmlNotes/MobNotes";
 import OtherNotes from "./components/Notes/HtmlNotes/OtherNotes";
 import { useRef, useState } from "react";
