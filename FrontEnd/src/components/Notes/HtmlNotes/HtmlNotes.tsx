@@ -1,30 +1,29 @@
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import "github-markdown-css";
+import { useState } from "react";
 
 
-const markdown = `
-# Understanding LINQ in C#
+type Props = {
+    name: string,
+    text: string
+}
+function HtmlNotes({name, text}:Props) {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    const toggleOpen = () => setIsOpen(!isOpen);
+  return (
+    <article className="w-11/12 py-4 ">
+      <h2 className="text-2xl text-center cursor-pointer w-full" onClick={toggleOpen}> {name} </h2>
 
-LINQ (Language Integrated Query) is a powerful feature in C# that allows developers to query data from different data sources using a unified syntax. Here are some key points from our bootcamp group's discussion about LINQ:
-
-## Benefits of LINQ:
-
-- Provides a consistent way to query various data sources such as arrays, collections, databases, XML, and more.
-- Enables developers to write queries directly within C# code, making code more readable and maintainable.
-- Supports both query and method syntax, giving developers flexibility in writing queries.
-- Offers powerful features like filtering, sorting, grouping, and joining data.
-
-## Basic LINQ Query Syntax:
-
-LINQ query syntax resembles SQL syntax and consists of three main clauses: \`from\`, \`where\`, and \`select\`.
-`;
-
-function HtmlNotes() {
-    return (
-        <div className="pico-scope">
-            <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
+        <div 
+        className={`markdown-body dropdown-wrapper dropdown-animation ${isOpen ? "py-4 border-b-2 border-black " : "hidden"} `}
+        style={{ maxHeight: isOpen ? '1000px' : '0', overflow: 'hidden' }}>
+          <Markdown remarkPlugins={[remarkGfm]}>{text}</Markdown>
         </div>
-    )
+
+    </article>
+  );
 }
 
-export default HtmlNotes
+export default HtmlNotes;

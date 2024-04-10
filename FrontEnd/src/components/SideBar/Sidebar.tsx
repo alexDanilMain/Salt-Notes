@@ -22,7 +22,7 @@ export default function Sidebar() {
             </button>
 
 
-            <aside className={`absolute top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? '' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
+            <aside className={`fixed top-14 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? '' : '-translate-x-full'} sm:translate-x-0`} aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 text-black">
                     <button onClick={toggleMenu} className="p-2 rounded-md hover:bg-gray-200 focus:outline-none sm:hidden focus:bg-gray-200">
                         <svg width="40" height="40" viewBox="0 0 40 40"><path d="M 10,10 L 30,30 M 30,10 L 10,30" stroke="black" stroke-width="4" /></svg>
