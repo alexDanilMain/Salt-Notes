@@ -1,0 +1,50 @@
+
+using BackEnd.Data;
+using BackEnd.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+[ApiController]
+[Route("api/[controller]")]
+public class MobController : ControllerBase
+{
+    private readonly AppDbContext _context;
+
+    public MobController(AppDbContext context)
+    {
+        _context = context;
+    }
+
+
+    // POST: api/Mob
+    [HttpPost]
+    public async Task<ActionResult<Mob>> PostMob([FromBody] Mob mob)
+    {
+        _context.Mobs.Add(mob);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetMob), new { id = mob.MobId }, mob);
+    }
+
+    // GET: api/Mob/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Mob>> GetMob(int id)
+    {
+        var mob = await _context.Mobs.FindAsync(id);
+
+        if (mob == null)
+        {
+            return NotFound();
+        }
+
+        return mob;
+    }
+
+    // GET: api/Mob
+    [HttpGet]
+    public async Task<ActionResult<List<Mob>>> GetMobs()
+    {
+        return await _context.Mobs.ToListAsync();
+    }
+
+}
