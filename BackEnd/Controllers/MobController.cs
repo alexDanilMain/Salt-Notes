@@ -16,7 +16,6 @@ public class MobController : ControllerBase
     }
 
 
-    // POST: api/Mob
     [HttpPost]
     public async Task<ActionResult<Mob>> PostMob([FromBody] Mob mob)
     {
@@ -26,7 +25,6 @@ public class MobController : ControllerBase
         return CreatedAtAction(nameof(GetMob), new { id = mob.MobId }, mob);
     }
 
-    // GET: api/Mob/{id}
     [HttpGet("{id}")]
     public async Task<ActionResult<Mob>> GetMob(int id)
     {
@@ -40,7 +38,6 @@ public class MobController : ControllerBase
         return mob;
     }
 
-    // GET: api/Mob
     [HttpGet]
     public async Task<ActionResult<List<Mob>>> GetMobs()
     {
