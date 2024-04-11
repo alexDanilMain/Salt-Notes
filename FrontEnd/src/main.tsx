@@ -5,6 +5,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Home.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -25,10 +26,14 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <GoogleOAuthProvider clientId="750732784067-14h3shhdhie1gi8i45o1otpm6r663b6k.apps.googleusercontent.com">
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  </GoogleOAuthProvider>
+  <QueryClientProvider client={queryClient}>
+    <GoogleOAuthProvider clientId="750732784067-14h3shhdhie1gi8i45o1otpm6r663b6k.apps.googleusercontent.com">
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </GoogleOAuthProvider>
+  </QueryClientProvider>
 );

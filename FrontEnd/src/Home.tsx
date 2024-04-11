@@ -26,7 +26,8 @@ function Home() {
         setUserImage((jwtDecode(Token) as User).picture);
     }
   }, []);
-  //test comment
+
+  
   return (
     <>
       <NavBar profilePicture={userImage} />

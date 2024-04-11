@@ -12,6 +12,7 @@
   "dependencies": {
     "@picocss/pico": "^2.0.6",
     "@react-oauth/google": "^0.12.1",
+    "@tanstack/react-query": "^5.29.2",
     "github-markdown-css": "^5.5.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
