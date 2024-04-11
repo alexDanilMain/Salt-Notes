@@ -29,7 +29,7 @@ function Home() {
   //test comment
   return (
     <>
-      <NavBar />
+      <NavBar profilePicture={userImage} />
 
       <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
         <Sidebar />
