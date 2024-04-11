@@ -34,7 +34,7 @@ function Home() {
     error,
     data: notes,
   } = useQuery({
-    queryKey: ["getDayNotes"],
+    queryKey: ["getDayNotes",window.location.href],
     queryFn: () => getDayNotes(overallDayNumber),
   });
 

@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     let Token = getCookie("saltnote_key");
     if (typeof Token == "string") {
-        navigate("/home")
+        navigate("/about")
     }
   }, []);
 
