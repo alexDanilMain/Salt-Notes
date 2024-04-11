@@ -6,26 +6,20 @@ import NavBar from "./components/NavBar/NavBar";
 import NoteEditor from "./components/NoteEditor/NoteEditor";
 import { getCookie } from "./services/Cookies/Cookies";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { getDayNotes } from "./api/Api";
 import { useQuery } from "@tanstack/react-query";
 import Locked from "./imgs/Lock.svg";
 import Loading from "./components/SideBar/svg/Loading";
-type User = {
-  picture: string;
-};
+
 
 function Home() {
   const navigate = useNavigate();
-  const [userImage, setUserImage] = useState<string>("");
   const [input, setInput] = useState<string>("");
 
   useEffect(() => {
     let Token = getCookie("saltnote_key");
     if (Token == undefined) {
       navigate("/login");
-    } else {
-      setUserImage((jwtDecode(Token) as User).picture);
     }
   }, []);
 
@@ -59,7 +53,7 @@ function Home() {
   if (isLoading)
     return (
       <>
-        <NavBar profilePicture={userImage} />
+        <NavBar  />
 
         <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
           <Sidebar />
@@ -74,7 +68,7 @@ function Home() {
     if (error.message.includes("Accessable")) {
       return (
         <>
-          <NavBar profilePicture={userImage} />
+          <NavBar  />
 
           <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
             <Sidebar />
@@ -87,7 +81,7 @@ function Home() {
       );
     }else{
         <>
-        <NavBar profilePicture={userImage} />
+        <NavBar />
 
         <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
           <Sidebar />
@@ -101,7 +95,7 @@ function Home() {
 
   return (
     <>
-      <NavBar profilePicture={userImage} />
+      <NavBar />
 
       <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
         <Sidebar />
