@@ -63,7 +63,7 @@ function Home() {
 
         <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
           <Sidebar />
-          <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12">
+          <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12 sm:ml-64">
             <Loading />
           </section>
         </section>
@@ -78,9 +78,9 @@ function Home() {
 
           <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
             <Sidebar />
-            <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12">
+            <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12 sm:ml-64">
               <img src={Locked} alt="Lock" className="w-[240px] sm:w-[350px]" />
-              <h2> {error.message }</h2>
+              <h2 className="text-xl"> {error.message}</h2>
             </section>
           </section>
         </>
@@ -91,7 +91,7 @@ function Home() {
 
         <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
           <Sidebar />
-          <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12">
+          <section className="flex w-full mx-auto relative flex-col justify-center items-center h-full gap-12 mt-12 sm:ml-64">
             <h2 className="text-xl">Error with message : {error.message} </h2>
           </section>
         </section>
