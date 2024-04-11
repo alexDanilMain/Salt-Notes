@@ -85,13 +85,18 @@ public class NotesController : ControllerBase
     {
         return NotFound("Mob not found.");
     }
-    var daysSinceStart = (DateTime.Now.Date - userMob.StartDate.Date).Days + 1;
 
-    if (day == daysSinceStart && DateTime.Now.TimeOfDay < new TimeSpan(12, 0, 0))
+    var daysSinceStart = CalculateWeekdays(userMob.StartDate.Date, DateTime.Now.Date);
+
+    if (day >= daysSinceStart && daysSinceStart < 65)
     {
-        return Unauthorized("Cannot access today's notes before 16:00.");
-    }
+        if(day == daysSinceStart && DateTime.Now.TimeOfDay < new TimeSpan(16, 0, 0)){
+            return Unauthorized($"Accessable today 16:00");
+        }else if(day > daysSinceStart && daysSinceStart < 65){
+            return Unauthorized($"Accessable in {day - daysSinceStart} days");
+        }
 
+    }
 
     var yourNote = userMob.Notes.Where(note => note.NoteDay == day)
                                 .Select(note => new NoteDetails { MobName = userMob.Name, NoteContent = note.NoteContent })
@@ -110,6 +115,19 @@ public class NotesController : ControllerBase
     };
 
     return response;
+    }
+
+    public static int CalculateWeekdays(DateTime start, DateTime end)
+    {
+        int totalDays = 0;
+        for (DateTime date = start; date <= end; date = date.AddDays(1))
+        {
+            if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+            {
+                totalDays++;
+            }
+        }
+        return totalDays;
     }
 
 }
