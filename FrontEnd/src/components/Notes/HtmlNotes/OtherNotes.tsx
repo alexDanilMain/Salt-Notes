@@ -1,6 +1,5 @@
 import { Note } from "../../../api/Api"
 import HtmlNotes from "./HtmlNotes"
-import { markdown } from "./MobNotes"
 
 type Props = {
     notes : Note[]

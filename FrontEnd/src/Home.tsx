@@ -16,9 +16,8 @@ type User = {
 
 function Home() {
   const navigate = useNavigate();
-  const [input, setInput] = useState<string>("");
   const [userImage, setUserImage] = useState<string>("");
-
+  const [input, setInput] = useState<string>("");
 
   useEffect(() => {
     let Token = getCookie("saltnote_key");
@@ -42,9 +41,17 @@ function Home() {
         queryFn: () => getDayNotes(overallDayNumber)
     })
 
+    useEffect(() => {
+        if (notes?.yourNote) {
+          setInput(notes.yourNote.noteContent);
+        }
+      }, [notes]);
+
     if (isLoading) return <div>Loading...</div>;
 
     if (error) return <div>An error occurred: {error.message}</div>;
+
+
 
   return (
     <>
@@ -52,7 +59,7 @@ function Home() {
 
       <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
         <Sidebar />
-        <NoteEditor setInputState={setInput} />
+        <NoteEditor setInputState={setInput} InputState={input}/>
       </section>
 
       <section className="text-black sm:ml-64 flex-1 flex justify-center flex-col items-center overflow-hidden">

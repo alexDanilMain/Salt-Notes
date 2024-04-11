@@ -2,9 +2,11 @@ import { Dispatch, SetStateAction, useRef } from "react";
 
 type Props = {
     setInputState : Dispatch<SetStateAction<string>>;
+    InputState : string;
+
 }
 
-const NoteEditor = ({setInputState}: Props) => {
+const NoteEditor = ({setInputState, InputState}: Props) => {
 
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -42,6 +44,8 @@ const NoteEditor = ({setInputState}: Props) => {
           ref={inputRef}
           name=""
           id=""
+          value={InputState}
+          onChange={(e)=> setInputState(e.target.value)}
           cols={30}
           rows={20}
         ></textarea>
