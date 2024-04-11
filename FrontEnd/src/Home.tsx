@@ -32,14 +32,19 @@ function Home() {
     const week = parseInt(pathSegments[1], 10);
     const day = parseInt(pathSegments[2], 10);
 
-
-
     const overallDayNumber = ((week - 1) * 5) + day;
  
     const { isLoading, error, data: notes } = useQuery({
         queryKey: ['getDayNotes'],
         queryFn: () => getDayNotes(overallDayNumber)
     })
+
+    useEffect(() => {
+        if (isNaN(week) || isNaN(day) || day > 5 || week > 13) {
+          navigate("/about");
+        }
+      }, [week, day, navigate]);
+    
 
     useEffect(() => {
         if (notes?.yourNote) {
