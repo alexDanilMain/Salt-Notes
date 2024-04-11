@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { postDayNotes } from "../../api/Api";
+import { ToastContainer, ToastPosition, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 type Props = {
   setInputState: Dispatch<SetStateAction<string>>;
@@ -8,6 +10,7 @@ type Props = {
 };
 
 const NoteEditor = ({ setInputState, InputState }: Props) => {
+  
   const queryClient = useQueryClient();
   const [text, setText] = useState(InputState);
 
@@ -21,8 +24,16 @@ const NoteEditor = ({ setInputState, InputState }: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getDayNotes"] });
+      toast.success("Updated!", {
+        position: "bottom-right" as ToastPosition,
+      });
       setInputState(text);
     },
+    onError: (error: any) => { 
+      toast.error(`Error: ${error.message}`, {
+        position: "bottom-right" as ToastPosition,
+      });
+    }
   });
 
   const handleSubmit = () => {
@@ -35,6 +46,7 @@ const NoteEditor = ({ setInputState, InputState }: Props) => {
 
   return (
     <div className="flex-1 h-[600px] sm:ml-64">
+       <ToastContainer />
       <div className="w-full flex justify-between items-center bg-gray-50 border-b shadow-sm h-16 text-[8px] sm:text-sm lg:text-base">
         <h3 className="pl-4 lg:text-xl">Write <a href="https://daringfireball.net/projects/markdown/basics" target="_blank" className="text-blue-500 cursor-pointer">Markdown</a> Text Here!</h3>
 
