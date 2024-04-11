@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import NoteEditor from "./components/NoteEditor/NoteEditor";
 import { getCookie } from "./services/Cookies/Cookies";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { getDayNotes } from "./api/Api";
+import { useQuery } from "@tanstack/react-query";
 
 type User = {
     picture :string;
@@ -27,7 +29,21 @@ function Home() {
     }
   }, []);
 
-  
+    const pathSegments = window.location.pathname.split('/').filter(Boolean);
+    const week = parseInt(pathSegments[1], 10);
+    const day = parseInt(pathSegments[2], 10);
+
+
+    console.log(week, day)
+    const overallDayNumber = ((week - 1) * 5) + day;
+    console.log(overallDayNumber)
+    const { isPending, error, data: notes } = useQuery({
+        queryKey: ['getDayNotes'],
+        queryFn: () => getDayNotes(overallDayNumber)
+    })
+    
+    console.log(notes);
+
   return (
     <>
       <NavBar profilePicture={userImage} />
