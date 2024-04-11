@@ -25,8 +25,16 @@ export const getDayNotes = async(day:number): Promise<ResponseNote> => {
         'Authorization': 'Bearer ' + getCookie("saltnote_key"),
     }
 
-    const json_result = await fetch(`${URL_Base}/${day}`, {headers}).then(res =>  res.json())
-    return json_result as ResponseNote;
+    const response = await fetch(`${URL_Base}/${day}`, { headers });
+
+    if (!response.ok) {
+        let errorMessage = await response.text();;
+   
+        throw new Error(errorMessage);
+    }
+
+    return await response.json() as ResponseNote;
+
 }
 
 export const postDayNotes = async (content: string): Promise<Response> => {
