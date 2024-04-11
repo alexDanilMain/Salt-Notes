@@ -1,4 +1,6 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Dispatch, FormEvent, SetStateAction, useRef } from "react";
+import { postDayNotes } from "../../api/Api";
 
 type Props = {
     setInputState : Dispatch<SetStateAction<string>>;
@@ -7,7 +9,7 @@ type Props = {
 }
 
 const NoteEditor = ({setInputState, InputState}: Props) => {
-
+    const queryClient = useQueryClient()
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
     const handleCancle = () => {
@@ -15,6 +17,20 @@ const NoteEditor = ({setInputState, InputState}: Props) => {
         inputRef.current!.value = "";
       };
     
+      const mutation = useMutation({
+        mutationFn: (content: string) => {
+          return postDayNotes(content);
+    
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({queryKey:["getDayNotes"]})
+        }
+      })
+
+      const handleSubmit = () =>{
+        mutation.mutate(inputRef.current!.value)
+      }
+
   return (
     <div className="flex-1 h-[600px] sm:ml-64">
       <div className="w-full flex justify-between items-center bg-gray-50 border-b shadow-sm h-16 text-[8px] sm:text-sm lg:text-base">
@@ -30,7 +46,7 @@ const NoteEditor = ({setInputState, InputState}: Props) => {
           </button>
           <button
             className="h-8 rounded-full bg-green-400 hover:bg-green-500 py-1 px-2 truncate"
-            onClick={() => setInputState(inputRef.current!.value)}
+            onClick={()=> handleSubmit()}
           >
             {" "}
             Commit Changes{" "}

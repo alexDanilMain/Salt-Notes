@@ -9,7 +9,7 @@ function OtherNotes({notes}: Props) {
         <>
         <h2 className="text-3xl py-4 border-b-2 border-black">Other Mobs</h2>
 
-        {notes.map(({mobName, noteContent}) => <HtmlNotes name={mobName} text={noteContent} />)}    
+        {notes.map(({mobName, noteContent}) => <HtmlNotes key={mobName} name={mobName} text={noteContent} />)}    
       
 
         </>

@@ -22,7 +22,7 @@ function Weeks({ number, name }: Props) {
                 <Arrow />
             </button>
             <ul id={dropdownId} className={`py-2 ${isOpen ? 'block' : 'hidden'}`}>
-                {days.map((dayNumber) => <Days week={number} number={dayNumber} />)}
+                {days.map((dayNumber) => <Days key={name+dayNumber+number} week={number} number={dayNumber} />)}
             </ul>
         </li>
     )
