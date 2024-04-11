@@ -1,16 +1,27 @@
 import { useState } from "react";
 import Weeks from "./Weeks"
 
-const dummyWeek = Array(13).fill({ name: "HellWeek" })
+const DotNetBootCamp = [
+    "Introduction week",
+    "C# & OOP",
+    "Advanced C#",
+    "HTML, CSS & JS",
+    "Api Week",
+    "JS & TypeScript",
+    "Intro to React",
+    "Databases, EF",
+    "Security & CareerDays",
+    "UX Days & HackDays",
+    "Cloud",
+    "Project week 1",
+    "Project week 2",
+]
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
-
-
+    
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
-
-
 
     return (
         <>
@@ -28,7 +39,7 @@ export default function Sidebar() {
                         <svg width="40" height="40" viewBox="0 0 40 40"><path d="M 10,10 L 30,30 M 30,10 L 10,30" stroke="black" stroke-width="4" /></svg>
                     </button>
                     <ul className="mt-2 px-2 pl-6 ">
-                        {dummyWeek.map((week, index) => <Weeks name={week.name} number={index+1} />)}
+                        {DotNetBootCamp.map((week, index) => <Weeks name={week} number={index+1} />)}
                     </ul>
                 </div>
             </aside>
