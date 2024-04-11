@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackEnd.Models;
 
@@ -8,6 +9,10 @@ public class Note
     public int NoteDay { get; set;}
     public required string NoteContent { get; set;}
     public int MobId { get; set;}
-    public required virtual Mob Mob { get; set;}
+    
+    [JsonIgnore]
+    public virtual Mob Mob { get; set;}
 
+    [NotMapped] 
+    public string? MobName => Mob?.Name;
 }

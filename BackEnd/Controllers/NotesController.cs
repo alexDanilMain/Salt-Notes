@@ -37,38 +37,73 @@ public class NotesController : ControllerBase
 
         var noteDay = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
 
+        var existingNote = await _context.Notes.FirstOrDefaultAsync(n => n.MobId == mob.MobId && n.NoteDay == noteDay);
+        
         var note = new Note
-        {
-            NoteDay = noteDay,
-            NoteContent = postReq.NoteContent, 
-            MobId = mob.MobId,
-            Mob = mob
-        };
+            {
+                NoteDay = noteDay,
+                NoteContent = postReq.NoteContent,
+                MobId = mob.MobId,
+                Mob = mob
+            };
 
-        _context.Notes.Add(note);
+        if (existingNote != null)
+        {
+            existingNote.NoteContent = postReq.NoteContent;
+        }
+        else
+        {
+   
+            _context.Notes.Add(note);
+        }
+   
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetNote), new { id = note.Id }, note);
-    }
-
-    [HttpGet("{id}")]
-    [Authorize]
-    public async Task<ActionResult<Note>> GetNote(int id)
-    {
-        var Note = await _context.Notes.FindAsync(id);
-
-        if (Note == null)
+        if (existingNote != null)
         {
-            return NotFound();
+            return Ok(existingNote);
+        }
+        else
+        {
+            return CreatedAtAction(nameof(GetNote), new { day = note.NoteDay }, note);
         }
 
-        return Note;
     }
 
-    [HttpGet]
+    [HttpGet("{day}")]
     [Authorize]
-    public async Task<ActionResult<List<Note>>> GetNotes()
+    public async Task<ActionResult<List<Note>>> GetNote(int day)
     {
-        return await _context.Notes.ToListAsync();
+
+    var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+    if (string.IsNullOrEmpty(userEmail))
+    {
+        return BadRequest("User email not found in token.");
+    }
+
+    var mob = await _context.Mobs.FirstOrDefaultAsync(m => m.MobMembers.Contains(userEmail));
+
+    if (mob == null)
+    {
+        return NotFound("Mob not found.");
+    }
+    var daysSinceStart = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
+
+    if (day == daysSinceStart && DateTime.Now.TimeOfDay < new TimeSpan(12, 0, 0))
+    {
+        return Unauthorized("Cannot access today's notes before 16:00.");
+    }
+
+    var notes = await _context.Notes
+                              .Where(n => n.NoteDay == day)
+                              .ToListAsync();
+
+    if (!notes.Any())
+    {
+        return new List<Note>();
+    }
+
+    return notes;
     }
 
 }
