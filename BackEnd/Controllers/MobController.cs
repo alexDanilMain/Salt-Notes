@@ -50,5 +50,5 @@ public class MobController : ControllerBase
     {
         return await _context.Mobs.ToListAsync();
     }
-
+ 
 }
