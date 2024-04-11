@@ -37,7 +37,7 @@ public class NotesController : ControllerBase
 
         var noteDay = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
 
-        var existingNote = await _context.Notes.FirstOrDefaultAsync(n => n.MobId == mob.MobId && n.NoteDay == noteDay);
+        var existingNote = await _context.Notes.FirstOrDefaultAsync(note => note.MobId == mob.MobId && note.NoteDay == noteDay);
         
         var note = new Note
             {
@@ -71,39 +71,45 @@ public class NotesController : ControllerBase
 
     [HttpGet("{day}")]
     [Authorize]
-    public async Task<ActionResult<List<Note>>> GetNote(int day)
+    public async Task<ActionResult<NotesRes>> GetNote(int day)
     {
-
-    var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+    var userEmail = User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
 
     if (string.IsNullOrEmpty(userEmail))
     {
         return BadRequest("User email not found in token.");
     }
 
-    var mob = await _context.Mobs.FirstOrDefaultAsync(m => m.MobMembers.Contains(userEmail));
-
-    if (mob == null)
+    var userMob = await _context.Mobs.Include(mob => mob.Notes).FirstOrDefaultAsync(mob => mob.MobMembers.Contains(userEmail));
+    if (userMob == null)
     {
         return NotFound("Mob not found.");
     }
-    var daysSinceStart = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
+    var daysSinceStart = (DateTime.Now.Date - userMob.StartDate.Date).Days + 1;
 
     if (day == daysSinceStart && DateTime.Now.TimeOfDay < new TimeSpan(12, 0, 0))
     {
         return Unauthorized("Cannot access today's notes before 16:00.");
     }
 
-    var notes = await _context.Notes
-                              .Where(n => n.NoteDay == day)
-                              .ToListAsync();
 
-    if (!notes.Any())
+    var yourNote = userMob.Notes.Where(note => note.NoteDay == day)
+                                .Select(note => new NoteDetails { MobName = userMob.Name, NoteContent = note.NoteContent })
+                                .FirstOrDefault();
+
+
+    var otherMobNotes = await _context.Notes.Include(note => note.Mob)
+                                             .Where(note => note.NoteDay == day && note.MobId != userMob.MobId)
+                                             .Select(note => new NoteDetails { MobName = note.Mob.Name, NoteContent = note.NoteContent })
+                                             .ToListAsync();
+
+    var response = new NotesRes
     {
-        return new List<Note>();
-    }
+        YourNote = yourNote,
+        OtherMobNotes = otherMobNotes
+    };
 
-    return notes;
+    return response;
     }
 
 }
