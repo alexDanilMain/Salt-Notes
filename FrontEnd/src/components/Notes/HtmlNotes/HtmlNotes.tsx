@@ -2,6 +2,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "github-markdown-css";
 import { useState } from "react";
+import Arrow from "../../SideBar/svg/Arrow";
 
 
 type Props = {
@@ -19,8 +20,7 @@ function HtmlNotes({name, text}:Props) {
 
   return (
     <article className="w-11/12 py-4 ">
-      <h2 className="text-2xl text-center cursor-pointer w-full" onClick={toggleOpen}> {name} </h2>
-
+      <h2 className="text-2xl cursor-pointer w-full flex justify-center items-center gap-4" onClick={toggleOpen}> <span>{name} </span>  <Arrow/> </h2> 
         <div 
         className={`markdown-body dropdown-wrapper dropdown-animation ${isOpen ? "py-4 border-b-2 border-black overflow-y-auto overflow-x-hidden" : "overflow-hidden hidden"} `}
         style={{ maxHeight: isOpen ? '700px' : '0' }}>
