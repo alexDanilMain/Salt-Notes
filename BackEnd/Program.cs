@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using backend.Config;
 using BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +42,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     options.Authority = "https://accounts.google.com";
-    options.Audience = "887329743818-i7f0mmne75n5ibn7khdq387ivk6s6en2.apps.googleusercontent.com";
+    options.Audience = "750732784067-14h3shhdhie1gi8i45o1otpm6r663b6k.apps.googleusercontent.com";
 });
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 var app = builder.Build();
 app.UseCors(x => x

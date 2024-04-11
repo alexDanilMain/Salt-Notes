@@ -17,8 +17,15 @@ public class MobController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult<Mob>> PostMob([FromBody] Mob mob)
+    public async Task<ActionResult<Mob>> PostMob([FromBody] MobPostReq mobReq)
     {
+        var mob = new Mob
+        {
+            Name = mobReq.Name,
+            StartDate = mobReq.StartDate,
+            MobMembers = mobReq.MobMembers,
+            
+        };
         _context.Mobs.Add(mob);
         await _context.SaveChangesAsync();
 

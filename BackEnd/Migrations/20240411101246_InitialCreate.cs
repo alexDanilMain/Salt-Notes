@@ -32,7 +32,8 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    NoteDay = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    NoteDay = table.Column<int>(type: "INTEGER", nullable: false),
+                    NoteContent = table.Column<string>(type: "TEXT", nullable: false),
                     MobId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

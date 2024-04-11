@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240410140411_InitialCreate")]
+    [Migration("20240411101246_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,8 +51,12 @@ namespace BackEnd.Migrations
                     b.Property<int>("MobId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("NoteDay")
+                    b.Property<string>("NoteContent")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("NoteDay")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -64,12 +68,17 @@ namespace BackEnd.Migrations
             modelBuilder.Entity("BackEnd.Models.Note", b =>
                 {
                     b.HasOne("BackEnd.Models.Mob", "Mob")
-                        .WithMany()
+                        .WithMany("Notes")
                         .HasForeignKey("MobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mob");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.Mob", b =>
+                {
+                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }

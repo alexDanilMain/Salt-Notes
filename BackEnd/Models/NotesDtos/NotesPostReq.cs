@@ -1,0 +1,1 @@
+public record NotesPostReq(string NoteContent);

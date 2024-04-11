@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using BackEnd.Data;
 using BackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,15 +18,40 @@ public class NotesController : ControllerBase
 
 
     [HttpPost]
-    public async Task<ActionResult<Note>> PostNote([FromBody] Note Note)
+    [Authorize]
+    public async Task<ActionResult<Note>> PostNote([FromBody] NotesPostReq postReq)
     {
-        _context.Notes.Add(Note);
-        await _context.SaveChangesAsync();
+        var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return BadRequest("User email not found in token.");
+        }
 
-        return CreatedAtAction(nameof(GetNote), new { id = Note.Id }, Note);
+        var mob = await _context.Mobs.FirstOrDefaultAsync(m => m.MobMembers.Contains(userEmail));
+
+        if (mob == null)
+        {
+            return NotFound("Mob not found.");
+        }
+
+        var noteDay = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
+
+        var note = new Note
+        {
+            NoteDay = noteDay,
+            NoteContent = postReq.NoteContent, 
+            MobId = mob.MobId,
+            Mob = mob
+        };
+
+        _context.Notes.Add(note);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetNote), new { id = note.Id }, note);
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Note>> GetNote(int id)
     {
         var Note = await _context.Notes.FindAsync(id);
@@ -38,6 +65,7 @@ public class NotesController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<List<Note>>> GetNotes()
     {
         return await _context.Notes.ToListAsync();
