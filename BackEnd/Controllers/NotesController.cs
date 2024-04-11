@@ -93,7 +93,7 @@ public class NotesController : ControllerBase
         if(day == daysSinceStart && DateTime.Now.TimeOfDay < new TimeSpan(16, 0, 0)){
             return Unauthorized($"Accessable today 16:00");
         }else if(day > daysSinceStart && daysSinceStart < 65){
-            return Unauthorized($"Accessable in {day - daysSinceStart} days");
+            return Unauthorized($"Accessable in {day - daysSinceStart} weekdays");
         }
 
     }
