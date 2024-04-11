@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import NoteEditor from "./components/NoteEditor/NoteEditor";
 import { getCookie } from "./services/Cookies/Cookies";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { getDayNotes } from "./api/Api";
 import { useQuery } from "@tanstack/react-query";
@@ -34,15 +34,17 @@ function Home() {
     const day = parseInt(pathSegments[2], 10);
 
 
-    console.log(week, day)
+
     const overallDayNumber = ((week - 1) * 5) + day;
-    console.log(overallDayNumber)
-    const { isPending, error, data: notes } = useQuery({
+ 
+    const { isLoading, error, data: notes } = useQuery({
         queryKey: ['getDayNotes'],
         queryFn: () => getDayNotes(overallDayNumber)
     })
-    
-    console.log(notes);
+
+    if (isLoading) return <div>Loading...</div>;
+
+    if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
     <>
@@ -55,7 +57,7 @@ function Home() {
 
       <section className="text-black sm:ml-64 flex-1 flex justify-center flex-col items-center overflow-hidden">
         <MobNotes text={input} />
-        <OtherNotes />
+        <OtherNotes notes = {notes!.otherMobNotes.$values} />
       </section>
     </>
   );
