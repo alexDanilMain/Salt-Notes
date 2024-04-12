@@ -12,6 +12,8 @@ const days = Array.from({ length: 5 }, (_, i) => i + 1);
 function Weeks({ number, name }: Props) {
     const pathSegments = window.location.pathname.split("/").filter(Boolean);
     const CurrentWeek = parseInt(pathSegments[1], 10);
+    const CurrentDay = parseInt(pathSegments[2], 10);
+
     const [isOpen, setIsOpen] = useState(CurrentWeek ? CurrentWeek == number : false);
     const dropdownId = `dropdown-${number}`;
 
@@ -23,7 +25,7 @@ function Weeks({ number, name }: Props) {
                 <Arrow />
             </button>
             <ul id={dropdownId} className={`py-2 ${isOpen ? 'block' : 'hidden'}`}>
-                {days.map((dayNumber) => <Days key={name+dayNumber+number} week={number} number={dayNumber} />)}
+                {days.map((dayNumber) => <Days key={name+dayNumber+number} week={number} number={dayNumber} isHighLighted={CurrentWeek == number && CurrentDay == dayNumber} />)}
             </ul>
         </li>
     )
