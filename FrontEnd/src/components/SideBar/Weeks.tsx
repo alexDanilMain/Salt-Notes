@@ -10,8 +10,9 @@ type Props = {
 const days = Array.from({ length: 5 }, (_, i) => i + 1);
 
 function Weeks({ number, name }: Props) {
-
-    const [isOpen, setIsOpen] = useState(false);
+    const pathSegments = window.location.pathname.split("/").filter(Boolean);
+    const CurrentWeek = parseInt(pathSegments[1], 10);
+    const [isOpen, setIsOpen] = useState(CurrentWeek ? CurrentWeek == number : false);
     const dropdownId = `dropdown-${number}`;
 
     return (

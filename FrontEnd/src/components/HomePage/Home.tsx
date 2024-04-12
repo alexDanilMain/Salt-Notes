@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../../services/Cookies/Cookies";
 import { useQuery } from "@tanstack/react-query";
 import { getDayNotes } from "../../api/Api";
 import Sidebar from "../SideBar/Sidebar";
@@ -42,6 +41,7 @@ function Home() {
   } = useQuery({
     queryKey: ["getDayNotes", window.location.href],
     queryFn: () => getDayNotes(overallDayNumber),
+    retry: false
   });
 
   useEffect(() => {
