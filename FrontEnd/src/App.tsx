@@ -1,18 +1,16 @@
-import { useEffect } from "react";
 import GoogleLogIn from "./components/GoogleLogin/GoogleLogin";
 import NavBar from "./components/NavBar/NavBar";
 import SaltyNote from "./imgs/SaltyNote.png";
-import { getCookie } from "./services/Cookies/Cookies";
-import { useNavigate } from "react-router-dom";
+
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
-  useEffect(() => {
-    let Token = getCookie("saltnote_key");
-    if (typeof Token == "string") {
-        navigate("/about")
-    }
-  }, []);
+  // useEffect(() => {
+  //   let Token = getCookie("saltnote_key");
+  //   if (typeof Token == "string") {
+  //       navigate("/about")
+  //   }
+  // }, []);
 
   return (
 

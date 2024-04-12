@@ -7,9 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 type Props = {
   setInputState: Dispatch<SetStateAction<string>>;
   InputState: string;
+  day:number;
 };
 
-const NoteEditor = ({ setInputState, InputState }: Props) => {
+const NoteEditor = ({ setInputState, InputState, day }: Props) => {
   
   const queryClient = useQueryClient();
   const [text, setText] = useState(InputState);
@@ -20,7 +21,7 @@ const NoteEditor = ({ setInputState, InputState }: Props) => {
 
   const mutation = useMutation({
     mutationFn: (content: string) => {
-      return postDayNotes(content);
+      return postDayNotes(content, day);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getDayNotes"] });

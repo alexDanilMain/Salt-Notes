@@ -37,7 +37,7 @@ export const getDayNotes = async(day:number): Promise<ResponseNote> => {
 
 }
 
-export const postDayNotes = async (content: string): Promise<Response> => {
+export const postDayNotes = async (content: string, day:number): Promise<Response> => {
     const headers = {
         'Content-type': "application/json; charset=UTF-8",
         'Authorization': 'Bearer ' + getCookie("saltnote_key"),
@@ -47,7 +47,7 @@ export const postDayNotes = async (content: string): Promise<Response> => {
         noteContent: content
     })
     const method = "POST"
-    const response = await fetch(URL_Base, {body, method, headers}).then(res => res.json());
+    const response = await fetch(`${URL_Base}/${day}`, {body, method, headers}).then(res => res.json());
     console.log("POST", response)
     return response
 

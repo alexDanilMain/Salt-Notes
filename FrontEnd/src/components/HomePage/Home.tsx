@@ -16,12 +16,12 @@ function Home() {
   const navigate = useNavigate();
   const [input, setInput] = useState<string>("");
 
-  useEffect(() => {
-    let Token = getCookie("saltnote_key");
-    if (Token == undefined) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   let Token = getCookie("saltnote_key");
+  //   if (Token == undefined) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   const pathSegments = window.location.pathname.split("/").filter(Boolean);
   const week = parseInt(pathSegments[1], 10);
@@ -68,7 +68,7 @@ function Home() {
 
       <section className="flex w-full mx-auto relative flex-col sm:flex-row mt-14">
         <Sidebar />
-        <NoteEditor setInputState={setInput} InputState={input} />
+        <NoteEditor setInputState={setInput} InputState={input} day={overallDayNumber}/>
       </section>
 
       <section className="text-black sm:ml-64 flex-1 flex justify-center flex-col items-center overflow-hidden">
