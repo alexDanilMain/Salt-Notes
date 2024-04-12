@@ -55,7 +55,10 @@ function Home() {
   if (error) {
     if (error.message.includes("Accessable")) {
       return <HomeLocked message={error.message} />;
-    } else {
+    }else if(!error.message){
+      return <HomeError message="You are not logged in!" />
+    } 
+    else {
       return (
         <HomeError message={error.message} />
       );
