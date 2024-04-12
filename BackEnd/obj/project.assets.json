@@ -3329,19 +3329,19 @@
     ]
   },
   "packageFolders": {
-    "/home/elontusk/.nuget/packages/": {}
+    "/Users/salt-dev/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/elontusk/Desktop/Github/Salt-Notes/BackEnd/BackEnd.csproj",
+      "projectUniqueName": "/Users/salt-dev/Salt/OwnProjects/HackProj/BackEnd/BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "/home/elontusk/Desktop/Github/Salt-Notes/BackEnd/BackEnd.csproj",
-      "packagesPath": "/home/elontusk/.nuget/packages/",
-      "outputPath": "/home/elontusk/Desktop/Github/Salt-Notes/BackEnd/obj/",
+      "projectPath": "/Users/salt-dev/Salt/OwnProjects/HackProj/BackEnd/BackEnd.csproj",
+      "packagesPath": "/Users/salt-dev/.nuget/packages/",
+      "outputPath": "/Users/salt-dev/Salt/OwnProjects/HackProj/BackEnd/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/elontusk/.nuget/NuGet/NuGet.Config"
+        "/Users/salt-dev/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3359,11 +3359,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3420,7 +3415,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/241/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

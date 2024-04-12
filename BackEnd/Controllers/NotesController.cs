@@ -17,9 +17,9 @@ public class NotesController : ControllerBase
     }
 
 
-    [HttpPost]
+    [HttpPost("{day}")]
     [Authorize]
-    public async Task<ActionResult<Note>> PostNote([FromBody] NotesPostReq postReq)
+    public async Task<ActionResult<Note>> PostNote([FromBody] NotesPostReq postReq, int day)
     {
         var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
         
@@ -35,13 +35,12 @@ public class NotesController : ControllerBase
             return NotFound("Mob not found.");
         }
 
-        var noteDay = (DateTime.Now.Date - mob.StartDate.Date).Days + 1;
 
-        var existingNote = await _context.Notes.FirstOrDefaultAsync(note => note.MobId == mob.MobId && note.NoteDay == noteDay);
+        var existingNote = await _context.Notes.FirstOrDefaultAsync(note => note.MobId == mob.MobId && note.NoteDay == day);
         
         var note = new Note
             {
-                NoteDay = noteDay,
+                NoteDay = day,
                 NoteContent = postReq.NoteContent,
                 MobId = mob.MobId,
                 Mob = mob
@@ -129,5 +128,30 @@ public class NotesController : ControllerBase
         }
         return totalDays;
     }
+
+    
+[HttpDelete("mob/{mobId}")]
+[Authorize]
+public async Task<ActionResult> DeleteMobNotes(int mobId)
+{
+    var userEmail = User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email)?.Value;
+
+    if (string.IsNullOrEmpty(userEmail))
+    {
+        return BadRequest("User email not found in token.");
+    }
+
+    var userMob = await _context.Mobs.Include(mob => mob.Notes).FirstOrDefaultAsync(mob => mob.MobId == mobId && mob.MobMembers.Contains(userEmail));
+    if (userMob == null)
+    {
+        return NotFound("Mob not found.");
+    }
+
+    // Delete all notes associated with the mob
+    _context.Notes.RemoveRange(userMob.Notes);
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
 
 }
